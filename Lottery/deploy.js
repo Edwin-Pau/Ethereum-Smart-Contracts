@@ -19,8 +19,9 @@ const deploy = async () => {
 
     // Once deployed, will get a transaction id for deploying the Contract.
     const result = await new web3.eth.Contract(JSON.parse(interface))
-        .deploy({data: '0x' + bytecode, arguments: ['Don\'t be a baddie!']}) // add 0x bytecode
-        .send({from: accounts[0]}); // remove 'gas'
+        .deploy({data: '0x' + bytecode, }) // add 0x bytecode
+        .send({from: accounts[0], gas: '1000000'})  
+        //.send({from: accounts[0]}); // remove 'gas'
 
     console.log('Contract deployed to', result.options.address)    
 }
