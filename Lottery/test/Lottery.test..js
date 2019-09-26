@@ -81,4 +81,57 @@ describe('Lottery Contract', () => {
         assert.equal(accounts[2], players[2])
         assert.equal(3, players.length)
     })
+
+    it('requires a minimum amount of ether to enter.', async () => {
+        // This should go to the catch block since you need ether to process a transaction.
+        try {
+            await lottery.methods.enter().send({
+            from: accounts[0],
+            value: 0
+            })
+            assert(false)
+        } catch (err) {
+            assert(err)
+        }
+    })
+
+    it('only contract manager can call pickWinner function.', async () => {
+        try {
+            await lottery.methods.pickWinner().send({
+                from: accounts[1] // Not the manager account
+            })
+            assert(false) // Automatically fail the test if this worked.
+        } catch (err) {
+            assert(err)
+        }
+    })
+
+    it('contract sends money to the winner and resets the array of players.', async () => {
+        // Sends two ether to the lottery contract, with only 1 player in the players array.
+        await lottery.methods.enterLottery().send({
+            from: accounts[0],
+            value: web3.utils.toWei('2', 'ether')
+        })
+
+        // Stores initial account balance after entering the lottery.
+        const initialBalance = await web3.eth.getBalance(accounts[0])
+
+        // Calls the pick winner function in the contract.
+        await lottery.methods.pickWinner().send({
+            from: accounts[0]
+        })
+
+        const finalBalance = await web3.eth.getBalance(accounts[0])
+
+        // Difference should be around 2 ethers minus the gas cost after winning the lottery.
+        const differenceOfBalance = finalBalance - initialBalance
+        assert(differenceOfBalance > web3.utils.toWei('1.9', 'ether'))
+
+        // Contract should now be reset with no players in the players array.
+        const players = await lottery.methods.getAllPlayers().call({
+            from: accounts[0]
+        })
+
+        assert.equal(players.length, 0)
+    })
 })
