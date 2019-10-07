@@ -23,6 +23,7 @@ const deploy = async () => {
         .send({from: accounts[0], gas: '1000000'})  
         //.send({from: accounts[0]}); // remove 'gas'
 
-    console.log('Contract deployed to', result.options.address)    
+    console.log(interface)    
+    console.log('Contract deployed to ', result.options.address)    
 }
 deploy()
