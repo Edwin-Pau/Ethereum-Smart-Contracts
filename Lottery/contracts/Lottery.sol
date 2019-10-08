@@ -2,6 +2,7 @@ pragma solidity ^0.4.17;
 
 contract Lottery {
     address public manager;
+    address public lastWinner;
     address[] public players;
     
     function Lottery() public {
@@ -33,7 +34,10 @@ contract Lottery {
         
         // Access to the winner index. IE. 0x2482039230df2092332...
         // .transfer() is available to any address object.
-        players[index].transfer(this.balance);
+        players[index].transfer(address(this).balance);
+
+        // Store the address of last winner so we can show users who won the last raffle
+        lastWinner = players[index];
         
         // Reset the dynamic players array so the contract is ready to go again. Sets initial size of 0.
         players = new address[](0);
