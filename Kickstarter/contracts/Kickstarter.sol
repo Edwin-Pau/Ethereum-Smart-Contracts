@@ -1,6 +1,14 @@
 pragma solidity ^0.4.17;
 
 contract Kickstarter {
+    // Struct definition for a Request to spend contract ethereum
+    struct Request {
+        string description;
+        uint value;
+        address recipient;
+        bool complete;
+    }
+    
     address public manager;
     uint public minimumContribution;
     address[] public contributors;
