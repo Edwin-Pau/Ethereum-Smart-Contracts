@@ -39,7 +39,7 @@ contract Kickstarter {
     function createRequest(string description, uint value, address recipient) public restricted {
         // storage keyword changes how the variable behave. Makes the variable point to the storage data structure
         // memory keyword creates a copy of the object in memory, and makes the variable point to this temp object
-        Request storage newRequest = Request({
+        Request memory newRequest = Request({
            description: description,
            value: value,
            recipient: recipient,
