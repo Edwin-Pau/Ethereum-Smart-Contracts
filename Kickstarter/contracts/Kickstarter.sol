@@ -9,11 +9,21 @@ contract Kickstarter {
         bool complete;
     }
     
+    // Contract holds an array of Requests
+    Request[] public requests;
+    
+    // Contract data members
     address public manager;
     uint public minimumContribution;
     address[] public contributors;
     
-    // Constructor function
+    // Modifier function to be used for the functions below
+    modifier restricted() {
+        require(msg.sender == manager);
+        _;
+    }
+
+    // Constructor function for this contract
     function Kickstarter(uint minimum) public {
         manager = msg.sender;
         minimumContribution = minimum;
@@ -23,5 +33,17 @@ contract Kickstarter {
     function contribute() public payable {
         require(msg.value > minimumContribution);
         contributors.push(msg.sender);
+    }
+    
+    // Function to create a Request for this contract
+    function createRequest(string description, uint value, address recipient) public restricted {
+        Request newRequest = Request({
+           description: description,
+           value: value,
+           recipient: recipient,
+           complete: false
+        });
+        
+        requests.push(newRequest);
     }
 }
