@@ -18,6 +18,7 @@ contract Kickstarter {
     address public manager;
     uint public minimumContribution;
     mapping(address => bool) public contributors;
+    uint public contributorsCount;
     
     // Modifier function to be used for the functions below
     modifier restricted() {
@@ -29,6 +30,7 @@ contract Kickstarter {
     function Kickstarter(uint minimum) public {
         manager = msg.sender;
         minimumContribution = minimum;
+        contributorsCount = 0;
     }
     
     // Contribute function, value sent in wei along must meet the minimum contribution amount
@@ -37,6 +39,9 @@ contract Kickstarter {
         
         // Uses the mapping index at msg.sender, only the value is stored in the mapping
         contributors[msg.sender] = true;
+
+        // Add the contributors count variable
+        contributorsCount++;
     }
     
     // Function to create a Request for this contract
@@ -77,6 +82,13 @@ contract Kickstarter {
         // First check the request is not already marked as complete
         require(!request.complete);
 
+        // Require that at least half of all contributors have approved
+        require(request.numOfYesVotes > (contributorsCount / 2));
+
+        // Transfer the ethereum from contract to the merchant account being paid
+        request.recipient.transfer(request.value);
+
+        // Mark this request as completed
         request.complete = true;
     }
 }
