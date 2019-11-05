@@ -68,4 +68,10 @@ contract Kickstarter {
         request.votedContributors[msg.sender] = true;
         request.numOfYesVotes++;
     }
+
+    // Function for the contract manager to finalize a request
+    function finalizeRequest(unit index) public restricted {
+        // First check the request is not already marked as complete
+        require(!requests[index].complete);
+    }
 }
