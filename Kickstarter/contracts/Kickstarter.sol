@@ -70,8 +70,13 @@ contract Kickstarter {
     }
 
     // Function for the contract manager to finalize a request
-    function finalizeRequest(unit index) public restricted {
+    function finalizeRequest(uint index) public restricted {
+        // Create a storage variable to be reused to minimize overhead
+        Request storage request = requests[index];
+
         // First check the request is not already marked as complete
-        require(!requests[index].complete);
+        require(!request.complete);
+
+        request.complete = true;
     }
 }
