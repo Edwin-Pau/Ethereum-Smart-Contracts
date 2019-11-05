@@ -7,15 +7,17 @@ contract Kickstarter {
         uint value;
         address recipient;
         bool complete;
+        uint numOfYesVotes;
+        mapping(address => bool) votedContributors;
     }
     
     // Contract holds an array of Requests
     Request[] public requests;
     
-    // Contract data members
+    // Contract data members, used a mapping for contributors
     address public manager;
     uint public minimumContribution;
-    address[] public contributors;
+    mapping(address => bool) public contributors;
     
     // Modifier function to be used for the functions below
     modifier restricted() {
@@ -32,7 +34,9 @@ contract Kickstarter {
     // Contribute function, value sent in wei along must meet the minimum contribution amount
     function contribute() public payable {
         require(msg.value > minimumContribution);
-        contributors.push(msg.sender);
+        
+        // Uses the mapping index at msg.sender, only the value is stored in the mapping
+        contributors[msg.sender] = true;
     }
     
     // Function to create a Request for this contract
@@ -43,9 +47,25 @@ contract Kickstarter {
            description: description,
            value: value,
            recipient: recipient,
-           complete: false
+           complete: false,
+           numOfYesVotes: 0
         });
         
         requests.push(newRequest);
+    }
+
+    // Function for contributors to vote and approve spending requests
+    function approveRequest(uint index) public {
+        // Create a storage variable so we can reuse it
+        Request storage request = requests[index];
+
+        // Ensure that the caller of this approval function is on the list of contributors
+        require(contributors[msg.sender]);
+
+        // Ensure that the caller has not already voted on the request
+        require(!request.votedContributors[msg.sender]);
+
+        request.votedContributors[msg.sender] = true;
+        request.numOfYesVotes++;
     }
 }
