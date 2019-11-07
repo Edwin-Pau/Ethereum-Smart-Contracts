@@ -1,5 +1,16 @@
 pragma solidity ^0.4.17;
 
+contract KickstarterInstance {
+    address[] public deployedInstances;
+
+    function createKickstarter(uint minimum) public {
+        // Returns address of newly created campaign
+        address newKickstarter = new Kickstarter(minimum, msg.sender);
+
+        deployedInstances.push(newKickstarter);
+    }
+}
+
 contract Kickstarter {
     // Struct definition for a Request to spend contract ethereum
     struct Request {
@@ -27,8 +38,8 @@ contract Kickstarter {
     }
 
     // Constructor function for this contract
-    function Kickstarter(uint minimum) public {
-        manager = msg.sender;
+    function Kickstarter(uint minimum, address owner) public {
+        manager = owner;
         minimumContribution = minimum;
         contributorsCount = 0;
     }
