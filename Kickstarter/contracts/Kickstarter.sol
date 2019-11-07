@@ -3,11 +3,17 @@ pragma solidity ^0.4.17;
 contract KickstarterInstance {
     address[] public deployedInstances;
 
-    function createKickstarter(uint minimum) public {
+    // Creates a newly deployed instance of the Kickstarter contract
+    function createNewInstance(uint minimum) public {
         // Returns address of newly created campaign
         address newKickstarter = new Kickstarter(minimum, msg.sender);
 
         deployedInstances.push(newKickstarter);
+    }
+
+    // Gets all the deployed instances of the Kickstarter contract
+    function getDeployedInstances() public view returns (address[]) {
+        return deployedInstances;
     }
 }
 
