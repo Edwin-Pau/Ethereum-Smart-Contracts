@@ -18,4 +18,18 @@ beforeEach(async () => {
     instance = await new web3.eth.Contract(JSON.parse(compiledKickstarterInstance))
         .deploy({ data: compiledKickstarterInstance.bytecode })
         .send({ from: accounts[0], gas: '1000000' });
+
+    await factory.methods.createNewInstance('100').send({
+        from: accounts[0],
+        gas: '1000000'
+    })
+    
+    // Returns an array of deployed addresses
+    const addresses = await factory.methods.getDeployedInstances().call();
+    kickstarterAddress = addresses[0];
+
+    kickstarter = await new web3.eth.Contract(
+        JSON.parse(compiledKickstarter.interface),
+        kickstarterAddress
+    )
 })
