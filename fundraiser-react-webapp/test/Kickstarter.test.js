@@ -96,8 +96,10 @@ describe('Kickstarters', () => {
     })
 
     // Ensure that spending requests are processed properly
-    it('processes requests.', async () => {
-        console.log(accounts[0])
+    it('processes spending requests and pays the proper address with the requested amount.', async () => {
+        // Store original balance
+        let originalBalance = await web3.eth.getBalance(accounts[1]);
+        originalBalance = web3.utils.fromWei(originalBalance, 'ether');
 
         // Contribute 10 ether from account 0 to be a contributor
         await kickstarter.methods.contribute().send({
@@ -121,11 +123,11 @@ describe('Kickstarters', () => {
             gas: '1000000'
         })
 
-        let balance = await web3.eth.getBalance(accounts[1]);
-        balance = web3.utils.fromWei(balance, 'ether');
-        balance = parseFloat(balance);
-        console.log(balance)
-        assert(balance > 104)
+        let newBalance = await web3.eth.getBalance(accounts[1]);
+        newBalance = web3.utils.fromWei(newBalance, 'ether');
+        newBalance = parseFloat(newBalance);
+
+        assert(newBalance > originalBalance)
     })
 })
 
