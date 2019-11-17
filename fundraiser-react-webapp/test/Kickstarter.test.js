@@ -130,6 +130,43 @@ describe('Kickstarters', () => {
 
         assert(newBalance > originalBalance)
     })
+
+    // Ensure that requests cannot be processed twice
+    it('processes spending requests only once and cannot be called again.', async () => {      
+        // Contribute 10 ether from account 0 to be a contributor
+        await kickstarter.methods.contribute().send({
+            from: accounts[0],
+            value: web3.utils.toWei('10', 'ether') 
+        })
+
+        // Create a spending request to pay accounts[1]
+        await kickstarter.methods
+            .createRequest('A', web3.utils.toWei('5', 'ether'), accounts[1])
+            .send({ from: accounts[0], gas: '1000000' })
+
+        // Vote and approve the spending request
+        await kickstarter.methods.approveRequest(0).send({
+            from: accounts[0],
+            gas: '1000000'
+        })
+
+        // Finalize the spending request to get paid as the manager
+        await kickstarter.methods.finalizeRequest(0).send({
+            from: accounts[0],
+            gas: '1000000'
+        })
+        
+        // Attempt to finalize request again to get paid
+        try {
+            await kickstarter.methods.finalizeRequest(0).send({
+            from: accounts[0],
+            gas: '1000000'
+            })
+            assert(false);
+        } catch (err) {
+            assert(true);
+        }
+    })
 })
 
 
