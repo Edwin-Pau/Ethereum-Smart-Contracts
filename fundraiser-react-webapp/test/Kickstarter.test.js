@@ -80,6 +80,20 @@ describe('Kickstarters', () => {
             assert(err);
         }
     })
+
+    // Ensure that a request is created properly
+    it('allows the contract manager to create a payment request.', async () => {
+        await kickstarter.methods.createRequest('Buy materials', '100', accounts[1])
+            .send({
+                from: accounts[0],
+                gas: '1000000'
+            })
+        
+        // Getter for the requests array
+        const request = await kickstarter.methods.requests(0).call();
+
+        assert.equal('Buy materials', request.description);
+    })
 })
 
 
