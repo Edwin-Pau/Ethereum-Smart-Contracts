@@ -100,6 +100,7 @@ describe('Kickstarters', () => {
         // Store original balance
         let originalBalance = await web3.eth.getBalance(accounts[1]);
         originalBalance = web3.utils.fromWei(originalBalance, 'ether');
+        originalBalance = parseFloat(originalBalance);
 
         // Contribute 10 ether from account 0 to be a contributor
         await kickstarter.methods.contribute().send({
