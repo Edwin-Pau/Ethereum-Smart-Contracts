@@ -1,7 +1,17 @@
-import React from 'react';
+import React, { Component } from 'react';
+import instance from '../ethereum/instance';
 
-export default () => {
-    return (
-        <h1>This is the kickstarter's listings page!</h1>
-    )
+class KickstarterIndex extends Component {
+    async componentDidMount() {
+        const instances = await instance.methods.getDeployedInstances().call();
+
+        console.log(instances);
+    }
+
+    // Need to define a render method for some jsx
+    render() {
+        return <div>Kickstarter Instances</div>
+    }
 }
+
+export default KickstarterIndex;
