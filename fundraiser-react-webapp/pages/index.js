@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import instance from '../ethereum/instance';
-import { Card } from 'semantic-ui-react'
+import { Card, Button } from 'semantic-ui-react'
 
 class KickstarterIndex extends Component {
     // Required to be static by Next.js
@@ -26,9 +26,14 @@ class KickstarterIndex extends Component {
     // Need to define a render method for some jsx
     render() {
         return <div>
-        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" />
+                    <link rel="stylesheet" 
+                    href="//cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" />
 
-        {this.renderInstances()}</div>
+                    {this.renderInstances()}
+
+                    <Button content="Create New Fundraiser" 
+                    icon="add circle" primary={true} labelPosition="right" />
+               </div>
     }
 }
 
