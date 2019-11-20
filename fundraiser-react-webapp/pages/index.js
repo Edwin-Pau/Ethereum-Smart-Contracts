@@ -10,6 +10,7 @@ class KickstarterIndex extends Component {
         return { instances };
     }
 
+    // Card for different deployed fundraiser instances
     renderInstances() {
         const items = this.props.instances.map(address => {
             return {
@@ -24,7 +25,10 @@ class KickstarterIndex extends Component {
 
     // Need to define a render method for some jsx
     render() {
-        return <div>{this.renderInstances()}</div>
+        return <div>
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" />
+
+        {this.renderInstances()}</div>
     }
 }
 
