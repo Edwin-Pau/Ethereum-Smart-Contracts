@@ -34,7 +34,7 @@ class KickstarterIndex extends Component {
                     <h3>Active Fundraisers</h3>
                     {this.renderInstances()}
 
-                    <Button content="Create New Fundraiser" 
+                    <Button content="Create Fundraiser" 
                     icon="add circle" primary={true} labelPosition="right" />
                 </div>
                </Layout>
