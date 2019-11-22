@@ -32,10 +32,11 @@ class KickstarterIndex extends Component {
                     href="//cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" />
 
                     <h3>Active Fundraisers</h3>
-                    {this.renderInstances()}
-
-                    <Button content="Create Fundraiser" 
+                    
+                    <Button floated="right" content="Create Fundraiser" 
                     icon="add circle" primary={true} labelPosition="right" />
+
+                    {this.renderInstances()}
                 </div>
                </Layout>
     }
