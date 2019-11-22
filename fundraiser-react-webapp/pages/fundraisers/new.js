@@ -7,11 +7,15 @@ import web3 from '../../ethereum/web3'
 class FundraiserNew extends Component {
     state = {
         minimumContribution: '',
-        errorMessage: ''
+        errorMessage: '',
+        loading: false
     }
 
     onSubmit = async (event) => {
         event.preventDefault();
+
+        // When on submit runs, loading shows up
+        this.setState({ loading: true });
 
         try {
             // Get our accounts from metamask
@@ -25,6 +29,9 @@ class FundraiserNew extends Component {
         } catch (err) {
             this.setState({ errorMessage: err.message })
         }
+
+        // When the form is finished loading, loading is turned back to false
+        this.setState({ loading: false })
     }
 
     render() {
@@ -32,7 +39,7 @@ class FundraiserNew extends Component {
             <Layout>
                 <h3>Create a Fundraiser!</h3>
 
-                <Form error={this.state.errorMessage} onSubmit={this.onSubmit}>
+                <Form error={!!this.state.errorMessage} onSubmit={this.onSubmit}>
                     <Form.Field>
                         <label>Enter Minimum Contribution Amount</label>
                         <Input
@@ -46,9 +53,8 @@ class FundraiserNew extends Component {
 
                     <Message error header="Something went wrong!" content={this.state.errorMessage} />
                 
-                    <Button primary>Create</Button>
+                    <Button loading={this.state.loading} primary>Create</Button>
                 </Form>
-
             </Layout>
         )
     }
