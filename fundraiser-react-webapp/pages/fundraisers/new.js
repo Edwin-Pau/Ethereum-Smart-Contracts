@@ -15,7 +15,7 @@ class FundraiserNew extends Component {
         event.preventDefault();
 
         // When on submit runs, loading shows up
-        this.setState({ loading: true });
+        this.setState({ loading: true, errorMessage: '' });
 
         try {
             // Get our accounts from metamask
