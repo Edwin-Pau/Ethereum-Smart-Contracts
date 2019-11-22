@@ -5,7 +5,7 @@ export default () => {
     return (
         <Menu style={{ marginTop: '10px' }}>
             <Menu.Item>
-                <img style={{ marginRight: '10px' }} src='/static/eth.png' alt='Logo'/>
+                <img style={{ marginRight: '10px',  width: '30px', height: '30px'}} src='/static/eth.png' alt='Logo'/>
                 Ethereum Kickstarter</Menu.Item>
         
             <Menu.Menu position="right">
