@@ -27,14 +27,14 @@ class KickstarterIndex extends Component {
     // Need to define a render method for some jsx
     render() {
         return <Layout>
-                <div>
+                
                     <h3>Active Fundraisers</h3>
                     
                     <Button floated="right" content="Create Fundraiser" 
                     icon="add circle" primary={true} labelPosition="right" />
 
                     {this.renderInstances()}
-                </div>
+                
                </Layout>
     }
 }
