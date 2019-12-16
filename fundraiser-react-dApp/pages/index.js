@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
-import instance from '../ethereum/instance';
+import React, { Component } from 'react'
+import instance from '../ethereum/instance'
 import { Card, Button } from 'semantic-ui-react'
 import Layout from '../components/layout'
+import { Link } from '../routes'
 
 class KickstarterIndex extends Component {
     // Required to be static by Next.js
@@ -16,7 +17,11 @@ class KickstarterIndex extends Component {
         const items = this.props.instances.map(address => {
             return {
                 header: address,
-                description: <a>View Fundraiser</a>,
+                description: (
+                    <Link route={`/fundraisers/${address}`}>
+                        <a>View Fundraiser</a>
+                    </Link>
+                ),
                 fluid: true
             }
         });
@@ -29,9 +34,13 @@ class KickstarterIndex extends Component {
         return <Layout>
                 
                     <h3>Active Fundraisers</h3>
-                    
-                    <Button floated="right" content="Create Fundraiser" 
-                    icon="add circle" primary={true} labelPosition="right" />
+
+                    <Link route="/fundraisers/new">
+                        <a>
+                            <Button floated="right" content="Create Fundraiser" 
+                            icon="add circle" primary={true} labelPosition="right" />
+                        </a>
+                    </Link>
 
                     {this.renderInstances()}
                 
