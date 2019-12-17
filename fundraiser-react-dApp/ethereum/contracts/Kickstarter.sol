@@ -108,4 +108,21 @@ contract Kickstarter {
         // Mark this request as completed
         request.complete = true;
     }
+
+    // Helper function to retrieve information about the contract
+    function getSummary() public view returns (
+        uint, uint, uint, uint, address
+    ) {
+        return (
+            minimumContribution,
+            this.balance,
+            requests.length,
+            contributorsCount,
+            manager
+        );
+    }
+
+    function getRequestsCount() public view returns (uint) {
+        return requests.length;
+    }
 }
