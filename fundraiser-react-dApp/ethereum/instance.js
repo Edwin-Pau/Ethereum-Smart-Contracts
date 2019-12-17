@@ -6,7 +6,7 @@ import KickstarterInstance from './build/KickstarterInstance.json';
 // Load up the deployed KickstarterInstance contract from test network
 const instance = new web3.eth.Contract(
     JSON.parse(KickstarterInstance.interface),
-    '0xf38E0ff87B4a571cF06e85A667a74c8D2EE48140'
+    '0xBEE67bB7afBC2E0e2E8EDBC5eaAAa3fBf972D909'
 );
 
 export default instance;
