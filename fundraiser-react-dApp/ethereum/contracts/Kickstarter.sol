@@ -4,9 +4,9 @@ contract KickstarterInstance {
     address[] public deployedInstances;
 
     // Creates a newly deployed instance of the Kickstarter contract
-    function createNewInstance(uint minimum) public {
+    function createNewInstance(uint minimum, string title, string description) public {
         // Returns address of newly created campaign
-        address newKickstarter = new Kickstarter(minimum, msg.sender);
+        address newKickstarter = new Kickstarter(minimum, msg.sender, title, description);
 
         deployedInstances.push(newKickstarter);
     }
@@ -36,6 +36,8 @@ contract Kickstarter {
     uint public minimumContribution;
     mapping(address => bool) public contributors;
     uint public contributorsCount;
+    string fundraiserTitle;
+    string fundraiserDescription;
     
     // Modifier function to be used for the functions below
     modifier restricted() {
@@ -44,10 +46,12 @@ contract Kickstarter {
     }
 
     // Constructor function for this contract
-    function Kickstarter(uint minimum, address owner) public {
+    function Kickstarter(uint minimum, address owner, string title, string description) public {
         manager = owner;
         minimumContribution = minimum;
         contributorsCount = 0;
+        fundraiserTitle = title;
+        fundraiserDescription = description;
     }
     
     // Contribute function, value sent in wei along must meet the minimum contribution amount
