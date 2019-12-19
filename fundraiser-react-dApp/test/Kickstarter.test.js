@@ -21,11 +21,12 @@ let kickstarter;
 beforeEach(async () => {
     accounts = await web3.eth.getAccounts();
 
+    // Had to increase gas to 2M, does not work with only 1M gas
     instance = await new web3.eth.Contract(JSON.parse(compiledInstance.interface))
         .deploy({ data: compiledInstance.bytecode })
-        .send({ from: accounts[0], gas: '1000000' });
+        .send({ from: accounts[0], gas: '2000000' });
 
-    await instance.methods.createNewInstance('100').send({
+    await instance.methods.createNewInstance('100', 'Test Fundraiser', 'This is a test!').send({
         from: accounts[0],
         gas: '1000000'
     })

@@ -115,14 +115,16 @@ contract Kickstarter {
 
     // Helper function to retrieve information about the contract
     function getSummary() public view returns (
-        uint, uint, uint, uint, address
+        uint, uint, uint, uint, address, string, string
     ) {
         return (
             minimumContribution,
             this.balance,
             requests.length,
             contributorsCount,
-            manager
+            manager,
+            fundraiserTitle,
+            fundraiserDescription
         );
     }
 
