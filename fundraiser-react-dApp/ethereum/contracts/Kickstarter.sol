@@ -36,8 +36,8 @@ contract Kickstarter {
     uint public minimumContribution;
     mapping(address => bool) public contributors;
     uint public contributorsCount;
-    string fundraiserTitle;
-    string fundraiserDescription;
+    string public fundraiserTitle;
+    string public fundraiserDescription;
     
     // Modifier function to be used for the functions below
     modifier restricted() {
