@@ -3,5 +3,5 @@ import Kickstarter from './build/Kickstarter.json';
 
 // Create a function to be used for the display page.
 export default (address) => {
-    return new web3.eth.contract(JSON.parse(Kickstarter.interface), address);
+    return new web3.eth.Contract(JSON.parse(Kickstarter.interface), address);
 };

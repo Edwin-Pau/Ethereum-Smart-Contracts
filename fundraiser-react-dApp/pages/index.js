@@ -18,6 +18,7 @@ class KickstarterIndex extends Component {
             return {
                 header: address,
                 description: (
+                    // Wildcard address is used in route.js
                     <Link route={`/fundraisers/${address}`}>
                         <a>View Fundraiser</a>
                     </Link>

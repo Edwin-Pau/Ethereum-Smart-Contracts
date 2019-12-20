@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Layout from '../../components/layout'
+import Fundraiser from '../../ethereum/fundraiser'
 
 class FundraiserDisplay extends Component {
     // Function gets called automatically before component is rendered.
@@ -7,7 +8,12 @@ class FundraiserDisplay extends Component {
     static async getInitialProps(props) {
         // Called with a separate props object of its own which
         // has the query property with the token url address.
-        console.log(props.query.address);
+        const fundraiser = Fundraiser(props.query.address);
+
+        const summary = await fundraiser.methods.getSummary().call();
+
+        console.log(summary);
+
         return {};
     }
 
