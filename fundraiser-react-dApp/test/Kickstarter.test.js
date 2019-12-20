@@ -168,6 +168,16 @@ describe('Kickstarters', () => {
             assert(true);
         }
     })
+
+    // Ensure that the newly created fundraiser has the correct title and description
+    it('contains the proper title and description strings attached to the contract.', async () => {
+        // Get this contract's title and description strings.
+        const title = await kickstarter.methods.fundraiserTitle().call();
+        const desc = await kickstarter.methods.fundraiserDescription().call();
+        
+        assert.equal('Test Fundraiser', title);
+        assert.equal('This is a test!', desc);
+    })
 })
 
 

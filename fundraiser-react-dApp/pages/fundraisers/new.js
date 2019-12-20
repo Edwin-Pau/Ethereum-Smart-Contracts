@@ -8,6 +8,8 @@ import { Link, Router } from '../../routes'
 class FundraiserNew extends Component {
     state = {
         minimumContribution: '',
+        title: '',
+        description: '',
         errorMessage: '',
         transactionHash: '',
         success: false,
@@ -30,7 +32,10 @@ class FundraiserNew extends Component {
 
             // Deploys new fundraiser contract on the Ethereum network
             const deployedContract = await instance.methods
-                                        .createNewInstance(this.state.minimumContribution)
+                                        .createNewInstance(
+                                            this.state.minimumContribution,
+                                            this.state.title,
+                                            this.state.description)
                                         .send({
                                             from: accounts[0]
                                         })
@@ -43,7 +48,12 @@ class FundraiserNew extends Component {
             this.setState({ success: true, transactionHash: txHash })
             
         } catch (err) {
-            this.setState({ errorMessage: err.message })
+            if (err.message === 'No \"from\" address specified in' + 
+            ' neither the given options, nor the default options.') {
+                this.setState({ errorMessage: 'Please login to a Metamask account!' })
+            } else {
+                this.setState({ errorMessage: err.message })
+            }
         }
 
         // When the form is finished loading, loading is turned back to false
@@ -60,6 +70,13 @@ class FundraiserNew extends Component {
                       onSubmit={this.onSubmit}>
 
                     <Form.Field>
+                        <label>Enter a Title:</label>
+                        <Input
+                            style={{ width: '25vw' }} 
+                            value={this.state.title}
+                            onChange={event => this.setState({ title: event.target.value })} 
+                        />
+
                         <label>Enter the Minimum Contribution Amount:</label>
                         <Input
                             style={{ width: '25vw' }} 
@@ -68,10 +85,18 @@ class FundraiserNew extends Component {
                             value={this.state.minimumContribution}
                             onChange={event => this.setState({ minimumContribution: event.target.value })} 
                         />
+
+                        <label>Enter a Description: </label>
+                        <Input
+                            style={{ width: '60vw' }} 
+                            value={this.state.description}
+                            onChange={event => this.setState({ description: event.target.value })} 
+                        />
+
                     </Form.Field>
 
                     <Message
-                        style={{ width: '50vw' }} 
+                        style={{ width: '60vw' }} 
                         success >
                         <Message.Content>
                             <Message.Header>Success</Message.Header>
@@ -84,13 +109,13 @@ class FundraiserNew extends Component {
                     </Message>    
 
                     <Message
-                        style={{ width: '50vw' }}  
+                        style={{ width: '60vw' }}  
                         error header="Something went wrong!" 
                         content={this.state.errorMessage} />
                     
                     <Message icon
                         hidden={!this.state.deploying}
-                        style={{ width: '50vw' }}>
+                        style={{ width: '60vw' }}>
                         <Icon name='circle notched' loading />
                         <Message.Content>
                             <Message.Header>Deploying to the blockchain!</Message.Header>
