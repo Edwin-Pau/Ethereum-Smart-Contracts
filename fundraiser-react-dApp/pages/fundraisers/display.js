@@ -6,15 +6,22 @@ class FundraiserDisplay extends Component {
     // Function gets called automatically before component is rendered.
     // Returned as an object and can now access via the props object.
     static async getInitialProps(props) {
-        // Called with a separate props object of its own which
-        // has the query property with the token url address.
+        // Call our created function which creates an instance of the
+        // contract and passing in the address of the url obtained
+        // from the props.query property.
         const fundraiser = Fundraiser(props.query.address);
 
         const summary = await fundraiser.methods.getSummary().call();
 
-        console.log(summary);
-
-        return {};
+        return {
+            minimumContribution: summary[0],
+            balance: summary[1],
+            requestsCount: summary[2],
+            contributorsCount: summary[3],
+            manager: summary[4],
+            title: summary[5],
+            description: summary[6]
+        };
     }
 
     render() {
