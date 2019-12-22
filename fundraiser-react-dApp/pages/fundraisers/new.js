@@ -88,7 +88,7 @@ class FundraiserNew extends Component {
 
                         <label>Enter a Description: </label>
                         <Input
-                            style={{ width: '60vw' }} 
+                            style={{ width: '50vw' }} 
                             value={this.state.description}
                             onChange={event => this.setState({ description: event.target.value })} 
                         />
@@ -96,7 +96,7 @@ class FundraiserNew extends Component {
                     </Form.Field>
 
                     <Message
-                        style={{ width: '60vw' }} 
+                        style={{ width: '50vw', overflowWrap: 'break-word' }} 
                         success >
                         <Message.Content>
                             <Message.Header>Success</Message.Header>
@@ -109,13 +109,13 @@ class FundraiserNew extends Component {
                     </Message>    
 
                     <Message
-                        style={{ width: '60vw' }}  
+                        style={{ width: '50vw', overflowWrap: 'break-word' }}  
                         error header="Something went wrong!" 
                         content={this.state.errorMessage} />
                     
                     <Message icon
                         hidden={!this.state.deploying}
-                        style={{ width: '60vw' }}>
+                        style={{ width: '50vw', overflowWrap: 'break-word' }} >
                         <Icon name='circle notched' loading />
                         <Message.Content>
                             <Message.Header>Deploying to the blockchain!</Message.Header>
