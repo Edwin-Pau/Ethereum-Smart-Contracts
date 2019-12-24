@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import Layout from '../../components/layout'
 import Fundraiser from '../../ethereum/fundraiser'
-import { Card } from 'semantic-ui-react';
+import { Card } from 'semantic-ui-react'
+import web3 from '../../ethereum/web3'
 
 class FundraiserDisplay extends Component {
     // Function gets called automatically before component is rendered.
@@ -40,9 +41,30 @@ class FundraiserDisplay extends Component {
         const items = [
             {
                 header: manager,
-                meta: 'Address of Contract Manager',
-                description: 'The manager created this fundraiser contract and can create spending requests to withdraw ether.',
+                meta: 'Contract Manager Address',
+                description: 'The manager is the owner who created this fundraiser contract and can create spending requests to withdraw ether.',
                 style: { overflowWrap: 'break-word' }
+            },
+            {
+                header: minimumContribution,
+                meta: 'Minimum Contribution Amount in Wei',
+                description: 'Minimum contribution amount is the minimum required contribution in wei for this fundraiser, set by the owner of this contract.'
+            },
+            {
+                header: requestsCount,
+                meta: 'Number of Spending Requests',
+                description: 'A spending request is when the owner of this fundraiser wants to withdraw a specified amount of ether from this contract. Requests must be approved by contributors.'
+            },
+            {
+                header: contributorsCount,
+                meta: 'Number of Contributors',
+                description: 'A contributor is someone who has already donated to this fundraiser and can approve spending reuqests.'
+            },
+            {
+                // Converts wei units to wei using web3 library
+                header: web3.utils.fromWei(balance, 'ether'),
+                meta: 'Fundraiser Current Balance in Ether',
+                description: 'This balance is the total amount of ether this fundraiser currently has.'
             }
         ]
 
@@ -52,7 +74,8 @@ class FundraiserDisplay extends Component {
     render() {
         return (
             <Layout>
-                <h3>Display Active Fundraisers</h3>
+                <h3>Viewing {this.props.title} </h3>
+                <p>{this.props.description}</p>
                 {this.renderFundraiserDetails()}
             </Layout>
         )
