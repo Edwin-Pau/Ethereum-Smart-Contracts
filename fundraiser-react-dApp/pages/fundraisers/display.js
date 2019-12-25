@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import Layout from '../../components/layout'
 import Fundraiser from '../../ethereum/fundraiser'
-import { Card } from 'semantic-ui-react'
+import { Card, Grid } from 'semantic-ui-react'
 import web3 from '../../ethereum/web3'
+import ContributeForm from '../../components/ContributeForm'
 
 class FundraiserDisplay extends Component {
     // Function gets called automatically before component is rendered.
@@ -74,9 +75,20 @@ class FundraiserDisplay extends Component {
     render() {
         return (
             <Layout>
+
                 <h3>Viewing {this.props.title} </h3>
                 <p>{this.props.description}</p>
-                {this.renderFundraiserDetails()}
+
+                <Grid>
+                    <Grid.Column width={10}>
+                        {this.renderFundraiserDetails()}
+                    </Grid.Column>
+                
+                    <Grid.Column width={6}>
+                        <ContributeForm/>
+                    </Grid.Column>
+                </Grid>
+                
             </Layout>
         )
     }
