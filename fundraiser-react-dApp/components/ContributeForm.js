@@ -2,14 +2,16 @@ import React, { Component } from 'react'
 import { Form, Input, Message, Button, Icon } from 'semantic-ui-react'
 import Fundraiser from '../ethereum/fundraiser'
 import web3 from '../ethereum/web3'
-import { Router } from '../routes'
+import { Router, Link } from '../routes'
 
 class ContributeForm extends Component {
     // Initialize state object
     state = {
         value: '',
         errorMessage: '',
-        loading: false
+        loading: false,
+        success: false,
+        transactionHash: ''
     }
 
     onSubmit = async (event) => {
@@ -22,13 +24,21 @@ class ContributeForm extends Component {
 
         try {
             const accounts = await web3.eth.getAccounts();
-            await fundraiser.methods.contribute().send({
+
+            const transaction = await fundraiser.methods.contribute().send({
                 from: accounts[0],
                 value: web3.utils.toWei(this.state.value, 'ether')
             })
 
+            // Obtains deployed contract information on the blockchain
+            const txHash = transaction.transactionHash
+
+            // Displays success message after deploying the new contract
+            this.setState({ success: true, transactionHash: txHash })
+
             // Force a refresh of the current page
             Router.replaceRoute(`/fundraisers/${this.props.address}`)
+
         } catch (err) {
             if (err.message === 'No \"from\" address specified in' + 
             ' neither the given options, nor the default options.') {
@@ -43,7 +53,11 @@ class ContributeForm extends Component {
 
     render() {
         return (
-            <Form onSubmit={this.onSubmit} error={!!this.state.errorMessage}>
+            <Form 
+                onSubmit={this.onSubmit} 
+                error={!!this.state.errorMessage}
+                success={this.state.success}
+            >
                 <Form.Field>
                     <label>Enter a Contribution Amount</label>
                     <Input 
@@ -53,6 +67,19 @@ class ContributeForm extends Component {
                         onChange={event => this.setState({ value: event.target.value })} 
                     />
                 </Form.Field>
+
+                <Message
+                        style={{ overflowWrap: 'break-word' }} 
+                        success >
+                        <Message.Content>
+                            <Message.Header>Success</Message.Header>
+                            Your transaction hash is
+                             
+                                <Link route={'https://rinkeby.etherscan.io/tx/' + this.state.transactionHash}>
+                                    <a>  {this.state.transactionHash.toString()} </a>
+                                </Link>
+                        </Message.Content>
+                </Message>  
 
                 <Message
                         style={{ overflowWrap: 'break-word' }}  
