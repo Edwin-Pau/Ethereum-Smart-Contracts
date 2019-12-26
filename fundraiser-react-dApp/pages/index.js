@@ -27,8 +27,6 @@ class KickstarterIndex extends Component {
         let instances = {};
         addresses.forEach((address, i) => instances[address] = titles[i]);
 
-        console.log(instances);
-
         return { addresses, instances };
     }
 

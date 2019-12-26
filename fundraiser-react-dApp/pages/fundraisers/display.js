@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import Layout from '../../components/layout'
 import Fundraiser from '../../ethereum/fundraiser'
-import { Card, Grid } from 'semantic-ui-react'
+import { Card, Grid, Button } from 'semantic-ui-react'
 import web3 from '../../ethereum/web3'
 import ContributeForm from '../../components/ContributeForm'
+import { Link } from '../../routes'
 
 class FundraiserDisplay extends Component {
     // Function gets called automatically before component is rendered.
@@ -35,9 +36,7 @@ class FundraiserDisplay extends Component {
             manager,
             minimumContribution,
             requestsCount,
-            contributorsCount,
-            title,
-            description
+            contributorsCount
         } = this.props;
 
         const items = [
@@ -48,14 +47,15 @@ class FundraiserDisplay extends Component {
                 style: { overflowWrap: 'break-word' }
             },
             {
+                // Converts wei units to wei using web3 library
+                header: web3.utils.fromWei(balance, 'ether'),
+                meta: 'Fundraiser Current Balance in Ether',
+                description: 'This balance is the total amount of ether this fundraiser currently holds.'
+            },
+            {
                 header: minimumContribution,
                 meta: 'Minimum Contribution Amount in Wei',
                 description: 'Minimum contribution amount is the minimum required contribution in wei for this fundraiser, set by the owner of this contract.'
-            },
-            {
-                header: requestsCount,
-                meta: 'Number of Spending Requests',
-                description: 'A spending request is when the owner of this fundraiser wants to withdraw ether from this contract balance. Requests must be approved by contributors.'
             },
             {
                 header: contributorsCount,
@@ -63,10 +63,9 @@ class FundraiserDisplay extends Component {
                 description: 'A contributor is someone who has already donated to this fundraiser and can approve spending requests.'
             },
             {
-                // Converts wei units to wei using web3 library
-                header: web3.utils.fromWei(balance, 'ether'),
-                meta: 'Fundraiser Current Balance in Ether',
-                description: 'This balance is the total amount of ether this fundraiser currently has.'
+                header: requestsCount,
+                meta: 'Number of Spending Requests',
+                description: 'A spending request is when the owner of this fundraiser wants to withdraw ether from this contract balance. Requests must be approved by contributors.'
             }
         ]
 
@@ -81,13 +80,25 @@ class FundraiserDisplay extends Component {
                 <p>{this.props.description}</p>
 
                 <Grid>
-                    <Grid.Column width={10}>
-                        {this.renderFundraiserDetails()}
-                    </Grid.Column>
+                    <Grid.Row>
+                        <Grid.Column width={10}>
+                            {this.renderFundraiserDetails()}
+                        </Grid.Column>
                 
-                    <Grid.Column width={6}>
-                        <ContributeForm address={this.props.address}/>
-                    </Grid.Column>
+                        <Grid.Column width={6}>
+                            <ContributeForm address={this.props.address}/>
+                        </Grid.Column>
+                    </Grid.Row>
+
+                    <Grid.Row>
+                        <Grid.Column>
+                            <Link route={`/fundraisers/${this.props.address}/requests`}>
+                                <a>
+                                    <Button primary>View Requests</Button>
+                                </a>
+                            </Link>
+                        </Grid.Column>
+                    </Grid.Row>
                 </Grid>
                 
             </Layout>
