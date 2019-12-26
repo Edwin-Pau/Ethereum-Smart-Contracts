@@ -3,18 +3,39 @@ import instance from '../ethereum/instance'
 import { Card, Button } from 'semantic-ui-react'
 import Layout from '../components/layout'
 import { Link } from '../routes'
+import Fundraiser from '../ethereum/fundraiser'
 
 class KickstarterIndex extends Component {
     // Required to be static by Next.js
     static async getInitialProps() {
-        const instances = await instance.methods.getDeployedInstances().call();
+        // Retrieves addresses of all the deployed fundraisers
+        const addresses = await instance.methods.getDeployedInstances().call();
 
-        return { instances };
+        // Returns promises of the fundraiser titles
+        const promises = addresses.map(async address => {
+            const eachFundraiser = Fundraiser(address);
+
+            const title = await eachFundraiser.methods.fundraiserTitle().call();
+
+            return title;
+        })
+
+        // Resolves all the promises returned
+        const titles = await Promise.all(promises);
+        
+        // Create the final instances object which contains addresses with titles
+        let instances = {};
+        addresses.forEach((address, i) => instances[address] = titles[i]);
+
+        console.log(instances);
+
+        return { addresses, instances };
     }
 
     // Card for different deployed fundraiser instances
     renderInstances() {
-        const items = this.props.instances.map(address => {
+        const items = this.props.addresses.map( address => {
+            
             return {
                 header: address,
                 description: (
