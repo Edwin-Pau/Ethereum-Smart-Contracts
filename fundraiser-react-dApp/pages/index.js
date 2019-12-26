@@ -38,7 +38,7 @@ class KickstarterIndex extends Component {
             
             return {
                 header: this.props.instances[address],
-                meta: address,
+                meta: "Contract Address: " + address,
                 description: (
                     
                     // Wildcard address is used in route.js
