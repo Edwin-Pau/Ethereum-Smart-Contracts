@@ -7,7 +7,10 @@ routes.add('fundraisers/new', '/fundraisers/new')
 // If the user goes to the first argument, show the second argument.
 routes.add('/fundraisers/:address', '/fundraisers/display')
 
-
-// Routing for a requests on a specific fundraiser
+// Routing for viewing requests on a specific fundraiser
 routes.add('/fundraisers/:address/requests', '/fundraisers/requests/index')
+
+// Routing for creating a spending request
+routes.add('/fundraisers/:address/requests/new', '/fundraisers/requests/new')
+
 module.exports = routes;
