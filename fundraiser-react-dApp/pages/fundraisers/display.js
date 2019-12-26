@@ -55,12 +55,12 @@ class FundraiserDisplay extends Component {
             {
                 header: requestsCount,
                 meta: 'Number of Spending Requests',
-                description: 'A spending request is when the owner of this fundraiser wants to withdraw a specified amount of ether from this contract. Requests must be approved by contributors.'
+                description: 'A spending request is when the owner of this fundraiser wants to withdraw ether from this contract balance. Requests must be approved by contributors.'
             },
             {
                 header: contributorsCount,
                 meta: 'Number of Contributors',
-                description: 'A contributor is someone who has already donated to this fundraiser and can approve spending reuqests.'
+                description: 'A contributor is someone who has already donated to this fundraiser and can approve spending requests.'
             },
             {
                 // Converts wei units to wei using web3 library

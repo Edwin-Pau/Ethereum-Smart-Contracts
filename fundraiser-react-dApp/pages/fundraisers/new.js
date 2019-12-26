@@ -81,8 +81,8 @@ class FundraiserNew extends Component {
                         <Input
                             style={{ width: '25vw' }} 
                             label="wei" 
-                            labelPosition="right"
-                            value={this.state.minimumContribution}
+                            labelPosition="right" 
+                            value={this.state.minimumContribution} 
                             onChange={event => this.setState({ minimumContribution: event.target.value })} 
                         />
 
@@ -119,7 +119,7 @@ class FundraiserNew extends Component {
                         <Icon name='circle notched' loading />
                         <Message.Content>
                             <Message.Header>Deploying to the blockchain!</Message.Header>
-                            We are deploying your new fundraiser contract on the Ethereum blockchain for you.
+                            We are deploying your new fundraiser contract on the Ethereum blockchain.
                         </Message.Content>
                     </Message>
 

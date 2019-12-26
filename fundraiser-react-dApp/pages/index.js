@@ -50,7 +50,7 @@ class KickstarterIndex extends Component {
             }
         });
 
-        return <Card.Group items={items} />;
+        return <Card.Group items={items} style={{ width: '40vw', overflowWrap: 'break-word' }}  />;
     }
 
     // Need to define a render method for some jsx
