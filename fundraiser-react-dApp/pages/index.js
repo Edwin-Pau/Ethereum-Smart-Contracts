@@ -37,8 +37,10 @@ class KickstarterIndex extends Component {
         const items = this.props.addresses.map( address => {
             
             return {
-                header: address,
+                header: this.props.instances[address],
+                meta: address,
                 description: (
+                    
                     // Wildcard address is used in route.js
                     <Link route={`/fundraisers/${address}`}>
                         <a>View Fundraiser</a>
