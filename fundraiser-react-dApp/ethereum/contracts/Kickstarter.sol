@@ -57,12 +57,16 @@ contract Kickstarter {
     // Contribute function, value sent in wei along must meet the minimum contribution amount
     function contribute() public payable {
         require(msg.value > minimumContribution);
+
+        // Add the contributors count variable, only increase count if contributor has not donated
+        if (!contributors[msg.sender]) {
+            contributorsCount++;
+        }
         
         // Uses the mapping index at msg.sender, only the value is stored in the mapping
         contributors[msg.sender] = true;
 
-        // Add the contributors count variable
-        contributorsCount++;
+
     }
     
     // Function to create a Request for this contract
