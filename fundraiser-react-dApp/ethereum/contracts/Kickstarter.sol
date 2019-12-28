@@ -65,8 +65,6 @@ contract Kickstarter {
         
         // Uses the mapping index at msg.sender, only the value is stored in the mapping
         contributors[msg.sender] = true;
-
-
     }
     
     // Function to create a Request for this contract
