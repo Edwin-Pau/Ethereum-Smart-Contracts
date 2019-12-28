@@ -68,6 +68,27 @@ describe('Kickstarters', () => {
         assert(isContributor);
     })
 
+    // Ensure that contributor count goes up only if the contributor is a new donor
+    it('ensures that the contributor count is correct.', async () => {
+        // Test transaction by sending 200 wei to contribute method
+        await kickstarter.methods.contribute().send({
+            value: '200',
+            from: accounts[1]
+        })
+
+        const count = await kickstarter.methods.contributorsCount().call();
+
+        assert.equal(1, count);
+
+        // Send a second transaction, count should still be one
+        await kickstarter.methods.contribute().send({
+            value: '200',
+            from: accounts[1]
+        })
+
+        assert.equal(1, count);
+    })
+
     // Ensure that a minimum contribution is required
     it('requires users to send a minimum contribution amount.', async () => {
         try {

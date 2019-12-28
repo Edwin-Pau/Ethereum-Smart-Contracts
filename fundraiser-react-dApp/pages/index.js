@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import instance from '../ethereum/instance'
 import { Card, Button } from 'semantic-ui-react'
-import Layout from '../components/layout'
+import Layout from '../components/Layout'
 import { Link } from '../routes'
 import Fundraiser from '../ethereum/fundraiser'
 

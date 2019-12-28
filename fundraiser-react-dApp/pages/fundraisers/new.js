@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Layout from '../../components/layout'
+import Layout from '../../components/Layout'
 import { Form, Button, Input, Message, Icon } from 'semantic-ui-react'
 import instance from '../../ethereum/instance'
 import web3 from '../../ethereum/web3'
@@ -33,7 +33,7 @@ class FundraiserNew extends Component {
             // Deploys new fundraiser contract on the Ethereum network
             const deployedContract = await instance.methods
                                         .createNewInstance(
-                                            this.state.minimumContribution,
+                                            web3.utils.toWei(this.state.minimumContribution, 'ether'),
                                             this.state.title,
                                             this.state.description)
                                         .send({
@@ -80,7 +80,7 @@ class FundraiserNew extends Component {
                         <label>Enter the Minimum Contribution Amount:</label>
                         <Input
                             style={{ width: '25vw' }} 
-                            label="wei" 
+                            label="ether" 
                             labelPosition="right" 
                             value={this.state.minimumContribution} 
                             onChange={event => this.setState({ minimumContribution: event.target.value })} 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Layout from '../../components/layout'
+import Layout from '../../components/Layout'
 import Fundraiser from '../../ethereum/fundraiser'
 import { Card, Grid, Button } from 'semantic-ui-react'
 import web3 from '../../ethereum/web3'
@@ -53,8 +53,8 @@ class FundraiserDisplay extends Component {
                 description: 'This balance is the total amount of ether this fundraiser currently holds.'
             },
             {
-                header: minimumContribution,
-                meta: 'Minimum Contribution Amount in Wei',
+                header: web3.utils.fromWei(minimumContribution, 'ether'),
+                meta: 'Minimum Contribution Amount in Ether',
                 description: 'Minimum contribution amount is the minimum required contribution in wei for this fundraiser, set by the owner of this contract.'
             },
             {
