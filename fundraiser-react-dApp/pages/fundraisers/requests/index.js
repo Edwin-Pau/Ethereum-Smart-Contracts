@@ -11,6 +11,7 @@ class FundraiserRequest extends Component {
         const fundraiser = Fundraiser(address)
         const requestCount = await fundraiser.methods.getRequestsCount().call()
         const contributorsCount = await fundraiser.methods.contributorsCount().call()
+        const title = await fundraiser.methods.fundraiserTitle().call()
 
         // Resolve an array of all the promises which give us an array of Requests
         const requests = await Promise.all(
@@ -19,7 +20,7 @@ class FundraiserRequest extends Component {
             })
         )
 
-        return { address, requests, requestCount, contributorsCount }
+        return { address, requests, requestCount, contributorsCount, title }
     }
 
     // Helper method to iterate through every request and return a row for each one
@@ -42,12 +43,19 @@ class FundraiserRequest extends Component {
 
         return (
             <Layout>
-                <h3>Pending Requests</h3>
-                
+                <h3>{this.props.title} Spending Requests</h3>
+
                 <Link route={`/fundraisers/${this.props.address}/requests/new`}>
-                    <a>
-                        <Button primary>Add Request</Button>
-                    </a>
+                        <a>
+                            <Button
+                                style={{ marginBottom: 10 }}
+                                floated="right"
+                                icon="add circle" 
+                                primary={true} 
+                                labelPosition="right"
+                                content="Add Request"
+                            />
+                        </a>
                 </Link>
 
                 <Table>
@@ -57,8 +65,7 @@ class FundraiserRequest extends Component {
                             <HeaderCell>Description</HeaderCell>
                             <HeaderCell>Amount in Ether</HeaderCell>
                             <HeaderCell>Recipient Address</HeaderCell>
-                            <HeaderCell>Approvals</HeaderCell>
-                            <HeaderCell>Votes Required</HeaderCell>
+                            <HeaderCell>Approvals Required</HeaderCell>
                             <HeaderCell>Approve</HeaderCell>
                             <HeaderCell>Finalize</HeaderCell>
                         </Row>
@@ -67,6 +74,10 @@ class FundraiserRequest extends Component {
                         {this.renderRow()}
                     </Body>
                 </Table>
+
+                <div>
+                    Found {this.props.requestCount} spending requests.
+                </div>
             </Layout>
         )
     }

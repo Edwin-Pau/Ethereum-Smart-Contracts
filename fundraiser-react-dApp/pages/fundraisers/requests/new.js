@@ -104,7 +104,7 @@ class NewRequest extends Component {
                     </Form.Field>
 
                     <Message
-                        style={{ overflowWrap: 'break-word' }} 
+                        style={{ overflowWrap: 'break-word', width: '40vw' }} 
                         success >
                         <Message.Content>
                             <Message.Header>Success</Message.Header>
@@ -117,14 +117,14 @@ class NewRequest extends Component {
                     </Message>  
 
                     <Message
-                        style={{ overflowWrap: 'break-word' }}  
+                        style={{ overflowWrap: 'break-word', width: '40vw' }}  
                         error header="Something went wrong!" 
                         content={this.state.errorMessage} 
                     />
 
                     <Message icon
                         hidden={!this.state.loading}
-                        style={{ overflowWrap: 'break-word' }} >
+                        style={{ overflowWrap: 'break-word', width: '40vw' }} >
                         <Icon name='circle notched' loading />
                         <Message.Content>
                             <Message.Header>Sending your transaction!</Message.Header>
