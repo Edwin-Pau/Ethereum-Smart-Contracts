@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Layout from '../../../components/Layout'
-import { Button, Table } from 'semantic-ui-react'
+import { Button, Table, Message } from 'semantic-ui-react'
 import { Link } from '../../../routes'
 import Fundraiser from '../../../ethereum/fundraiser'
 import RequestRow from '../../../components/RequestRow'
@@ -43,20 +43,24 @@ class FundraiserRequest extends Component {
 
         return (
             <Layout>
-                <h3>{this.props.title} Spending Requests</h3>
-
-                <Link route={`/fundraisers/${this.props.address}/requests/new`}>
-                        <a>
-                            <Button
-                                style={{ marginBottom: 10 }}
-                                floated="right"
-                                icon="add circle" 
-                                primary={true} 
-                                labelPosition="right"
-                                content="Add Request"
-                            />
-                        </a>
+                <Link route={`/fundraisers/${this.props.address}`}>
+                    <a>Back</a>
                 </Link>
+
+                <h3>{this.props.title} Spending Requests
+                    <Link route={`/fundraisers/${this.props.address}/requests/new`}>
+                            <a>
+                                <Button
+                                    style={{ marginBottom: 10 }}
+                                    floated="right"
+                                    icon="add circle" 
+                                    primary={true} 
+                                    labelPosition="right"
+                                    content="Add Request"
+                                />
+                            </a>
+                    </Link>
+                </h3>
 
                 <Table>
                     <Header>
@@ -78,6 +82,7 @@ class FundraiserRequest extends Component {
                 <div>
                     Found {this.props.requestCount} spending requests.
                 </div>
+
             </Layout>
         )
     }

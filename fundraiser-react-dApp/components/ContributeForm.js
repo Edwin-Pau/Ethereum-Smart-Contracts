@@ -59,7 +59,7 @@ class ContributeForm extends Component {
                 success={this.state.success}
             >
                 <Form.Field>
-                    <label>Enter a Contribution Amount</label>
+                    <label>Contribute Ether to this Fundraiser</label>
                     <Input 
                         label="ether" 
                         labelPosition="right"

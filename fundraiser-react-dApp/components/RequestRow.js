@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Table, Button } from 'semantic-ui-react'
+import { Table, Button, Message, Icon } from 'semantic-ui-react'
 import web3 from '../ethereum/web3'
 import { Link } from '../routes'
 import Fundraiser from '../ethereum/fundraiser'
@@ -8,9 +8,10 @@ class RequestRow extends Component {
     state = {
         loadingApprove: false,
         loadingFinalize: false,
-        errorMessage: '',
-        success: false,
-        transactionHash: ''
+        positiveApprove: false,
+        errorApprove: false,
+        positiveFinalize: false,
+        errorFinalize: false
     }
 
     onApprove = async () => {
@@ -18,11 +19,16 @@ class RequestRow extends Component {
 
         const accounts = await web3.eth.getAccounts()
 
-        this.setState({ loadingApprove: true })
+        this.setState({ loadingApprove: true, positiveApprove: false, errorApprove: false })
+        try {
+            await fundraiser.methods.approveRequest(this.props.id).send({
+                from: accounts[0]
+            })
 
-        await fundraiser.methods.approveRequest(this.props.id).send({
-            from: accounts[0]
-        })
+            this.setState({ positiveApprove: true })
+        } catch (err) {
+            this.setState({ errorApprove: true })
+        }
 
         this.setState({ loadingApprove: false })
     }
@@ -32,11 +38,16 @@ class RequestRow extends Component {
 
         const accounts = await web3.eth.getAccounts()
 
-        this.setState({ loadingFinalize: true })
+        this.setState({ loadingFinalize: true, positiveFinalize: false, errorFinalize: false })
+        try {
+            await fundraiser.methods.finalizeRequest(this.props.id).send({
+                from: accounts[0]
+            })
 
-        await fundraiser.methods.finalizeRequest(this.props.id).send({
-            from: accounts[0]
-        })
+            this.setState({ positiveFinalize: true })
+        } catch (err) {
+            this.setState({ errorFinalize: true })
+        }
 
         this.setState({ loadingFinalize: false })
     }
@@ -73,11 +84,15 @@ class RequestRow extends Component {
                 <Cell>
                     {request.complete ? 'Completed' : (
                         <Button 
-                            color="green" 
-                            basic onClick={this.onApprove}
-                            loading={this.state.loadingApprove}>
-                                Approve
-                        </Button>
+                            compact
+                            positive={this.state.positiveApprove}
+                            negative={this.state.errorApprove}
+                            basic={! (this.state.positiveApprove || this.state.errorApprove)}
+                            color="blue" 
+                            onClick={this.onApprove}
+                            loading={this.state.loadingApprove}
+                            content={'Approve'}
+                        />
                     )}
                 </Cell>
 
@@ -85,15 +100,18 @@ class RequestRow extends Component {
                     {request.complete ? 'Completed' : (
                         canFinalize ? 
                             <Button 
-                                color="teal" 
-                                basic onClick={this.onFinalize}
+                                compact
+                                positive={this.state.positiveFinalize}
+                                negative={this.state.errorFinalize}
+                                basic={! (this.state.positiveFinalize || this.state.errorFinalize)}
+                                color="blue" 
+                                onClick={this.onFinalize}
                                 loading={this.state.loadingFinalize}>
                                     Finalize
                             </Button> : 
                                 'Votes Required'
                     )}
                 </Cell>
-
             </Row>
         )
     }
