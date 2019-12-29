@@ -10,6 +10,7 @@ class FundraiserRequest extends Component {
         const { address } = props.query
         const fundraiser = Fundraiser(address)
         const requestCount = await fundraiser.methods.getRequestsCount().call()
+        const contributorsCount = await fundraiser.methods.contributorsCount().call()
 
         // Resolve an array of all the promises which give us an array of Requests
         const requests = await Promise.all(
@@ -18,7 +19,7 @@ class FundraiserRequest extends Component {
             })
         )
 
-        return { address, requests, requestCount }
+        return { address, requests, requestCount, contributorsCount }
     }
 
     // Helper method to iterate through every request and return a row for each one
@@ -30,6 +31,7 @@ class FundraiserRequest extends Component {
                     key={i}
                     request={request}
                     address={this.props.address}
+                    contributorsCount={this.props.contributorsCount}
                 />
             )
         })
@@ -56,6 +58,7 @@ class FundraiserRequest extends Component {
                             <HeaderCell>Amount in Ether</HeaderCell>
                             <HeaderCell>Recipient Address</HeaderCell>
                             <HeaderCell>Approvals</HeaderCell>
+                            <HeaderCell>Votes Required</HeaderCell>
                             <HeaderCell>Approve</HeaderCell>
                             <HeaderCell>Finalize</HeaderCell>
                         </Row>
