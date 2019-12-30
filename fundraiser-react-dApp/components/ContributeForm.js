@@ -23,6 +23,8 @@ class ContributeForm extends Component {
         this.setState({ loading: true, errorMessage: '' })
 
         try {
+            await ethereum.enable();
+
             const accounts = await web3.eth.getAccounts();
 
             const transaction = await fundraiser.methods.contribute().send({

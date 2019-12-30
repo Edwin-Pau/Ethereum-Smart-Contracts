@@ -17,6 +17,8 @@ class RequestRow extends Component {
     onApprove = async () => {
         const fundraiser = Fundraiser(this.props.address)
 
+        await ethereum.enable();
+
         const accounts = await web3.eth.getAccounts()
 
         this.setState({ loadingApprove: true, positiveApprove: false, errorApprove: false })
@@ -35,6 +37,8 @@ class RequestRow extends Component {
 
     onFinalize = async () => {
         const fundraiser = Fundraiser(this.props.address)
+
+        await ethereum.enable();
 
         const accounts = await web3.eth.getAccounts()
 

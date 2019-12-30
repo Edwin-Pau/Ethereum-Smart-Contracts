@@ -4,6 +4,7 @@ let web3;
 
 // Conditionals to see if we are running on the server or browser.
 if (typeof window !== 'undefined' && typeof window.web3 !== 'undefined') {
+    
     // This is for the browser side and metamask is running.
     web3 = new Web3(window.web3.currentProvider);
 } else {

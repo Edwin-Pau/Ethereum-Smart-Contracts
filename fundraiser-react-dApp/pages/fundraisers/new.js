@@ -24,6 +24,8 @@ class FundraiserNew extends Component {
         this.setState({ loading: true, errorMessage: ''});
 
         try {
+            await ethereum.enable();
+            
             // Get our accounts from metamask
             const accounts = await web3.eth.getAccounts();
 
