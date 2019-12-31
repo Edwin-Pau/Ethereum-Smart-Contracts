@@ -121,7 +121,7 @@ contract Kickstarter {
     ) {
         return (
             minimumContribution,
-            this.balance,
+            address(this).balance,
             requests.length,
             contributorsCount,
             manager,
